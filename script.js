@@ -49,6 +49,7 @@ const pageRefs = {
   nextDateCountdown: document.querySelector("#nextDateCountdown"),
   randomPlanBox: document.querySelector("#randomPlanBox"),
   photoInput: document.querySelector("#photoInput"),
+  photoCaption: document.querySelector("#photoCaption"),
   noteForm: document.querySelector("#noteForm"),
   dateForm: document.querySelector("#dateForm"),
   customPlanForm: document.querySelector("#customPlanForm"),
@@ -152,11 +153,23 @@ function handlePhotoUpload(event) {
     return;
   }
 
+  const caption = pageRefs.photoCaption ? pageRefs.photoCaption.value.trim() : "";
+
   Promise.all(files.map(fileToDataUrl)).then((images) => {
-    state.photos = [...images.map((src) => ({ id: crypto.randomUUID(), src })), ...state.photos].slice(0, 24);
+    state.photos = [
+      ...images.map((src) => ({
+        id: crypto.randomUUID(),
+        src,
+        caption: caption || "Nuestro recuerdo"
+      })),
+      ...state.photos
+    ].slice(0, 24);
     writeStorage(storageKeys.photos, state.photos);
     renderGallery();
     pageRefs.photoInput.value = "";
+    if (pageRefs.photoCaption) {
+      pageRefs.photoCaption.value = "";
+    }
   });
 }
 
@@ -284,6 +297,8 @@ function renderGallery() {
     const node = template.content.firstElementChild.cloneNode(true);
     node.dataset.id = photo.id;
     node.querySelector("img").src = photo.src;
+    node.querySelector("img").alt = photo.caption || "Recuerdo de Majo y Mateo";
+    node.querySelector(".polaroid-caption").textContent = photo.caption || "Nuestro recuerdo";
     pageRefs.galleryGrid.appendChild(node);
   });
 }

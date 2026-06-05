@@ -42,6 +42,8 @@
               <small>PNG, JPG o WEBP</small>
             </label>
             <input id="photoInput" type="file" accept="image/*" multiple hidden>
+            <label for="photoCaption">Descripción para las fotos</label>
+            <input id="photoCaption" maxlength="80" placeholder="Ej: salida a comer sushi">
             <p class="helper-text">Las fotos quedan guardadas localmente para que este espacio siga siendo de ustedes.</p>
           </div>
 
@@ -58,9 +60,12 @@
   </div>
 
   <template id="galleryItemTemplate">
-    <article class="gallery-item">
-      <img alt="Recuerdo de Majo y Mateo">
+    <article class="gallery-item polaroid-card">
       <button class="icon-button" type="button" data-action="delete-photo" aria-label="Eliminar foto">✕</button>
+      <div class="polaroid-photo">
+        <img alt="Recuerdo de Majo y Mateo">
+      </div>
+      <div class="polaroid-caption"></div>
     </article>
   </template>
 
