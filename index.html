@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Majo x Mateo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="page-shell">
+    <div class="floating floating-cat">🐱</div>
+    <div class="floating floating-monkey">🐵</div>
+    <div class="floating floating-heart">💖</div>
+
+    <header class="hero">
+      <nav class="topbar">
+        <span class="brand">MAJO + MATEO</span>
+        <div class="topbar-links">
+          <a href="#galeria">Galería</a>
+          <a href="#recuerdos">Recuerdos</a>
+          <a href="#citas">Citas</a>
+          <a href="#planes">Planes</a>
+        </div>
+      </nav>
+
+      <section class="hero-card">
+        <div class="hero-copy">
+          <p class="eyebrow">Para Maria Jose Pinto Palma</p>
+          <h1>La web de MAJO, mona, novia, mejor amiga y básicamente tu todo.</h1>
+          <p class="hero-text">
+            Un rincón para guardar sus fotos, escribir sus cosas, planear citas y escoger panoramas tiernos,
+            divertidos y con mucha energía de gatos y monitos.
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#galeria">Subir recuerdos</a>
+            <button class="button secondary" id="surpriseButton" type="button">Dame una sorpresa</button>
+          </div>
+        </div>
+
+        <div class="hero-side">
+          <div class="love-meter">
+            <span>Modo amorcito</span>
+            <strong>∞%</strong>
+            <p>Siempre activo. Nunca se apaga.</p>
+          </div>
+          <div class="sticker-stack">
+            <article class="sticker pink">
+              <span>🐱</span>
+              <p>Michi aprobando esta relación.</p>
+            </article>
+            <article class="sticker yellow">
+              <span>🐵</span>
+              <p>Monita oficial del proyecto.</p>
+            </article>
+            <article class="sticker blue">
+              <span>✨</span>
+              <p>Recuerdos, planes y detalles bonitos.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+    </header>
+
+    <main>
+      <section class="panel" id="galeria">
+        <div class="section-heading">
+          <p class="eyebrow">Galería</p>
+          <h2>Sus fotos favoritas</h2>
+          <p>Sube imágenes de ustedes. Quedan guardadas en este navegador.</p>
+        </div>
+
+        <div class="grid two-columns">
+          <div class="card soft-card">
+            <label class="upload-box" for="photoInput">
+              <span class="upload-icon">📸</span>
+              <strong>Agregar foto</strong>
+              <small>PNG, JPG o WEBP</small>
+            </label>
+            <input id="photoInput" type="file" accept="image/*" multiple hidden>
+            <p class="helper-text">Tip: si quieres llevarlo a otro computador, después conviene guardar las fotos también en el repo.</p>
+          </div>
+
+          <div class="card quote-card">
+            <p class="quote-label">Mensaje del día</p>
+            <blockquote id="dailyLoveNote">“Qué suerte tener un lugar solo para ustedes dos.”</blockquote>
+          </div>
+        </div>
+
+        <div class="gallery-grid" id="galleryGrid"></div>
+      </section>
+
+      <section class="panel" id="recuerdos">
+        <div class="section-heading">
+          <p class="eyebrow">Recuerdos</p>
+          <h2>Cosas de ustedes</h2>
+          <p>Escribe notas, promesas, chistes internos o cualquier detalle que quieras guardar.</p>
+        </div>
+
+        <div class="grid two-columns">
+          <form class="card note-form" id="noteForm">
+            <label for="noteTitle">Título</label>
+            <input id="noteTitle" name="title" maxlength="60" placeholder="Nuestra canción, una promesa, una salida...">
+
+            <label for="noteMessage">Texto</label>
+            <textarea id="noteMessage" name="message" rows="5" maxlength="400" placeholder="Escribe algo bonito, divertido o importante."></textarea>
+
+            <button class="button primary" type="submit">Guardar recuerdo</button>
+          </form>
+
+          <div class="card mini-board">
+            <h3>Mini tablero romántico</h3>
+            <ul>
+              <li>🐱 Un detalle pequeño puede cambiarle el día.</li>
+              <li>🐵 Las citas simples también valen muchísimo.</li>
+              <li>💌 Guardar recuerdos a tiempo evita que se pierdan.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="notes-grid" id="notesGrid"></div>
+      </section>
+
+      <section class="panel" id="citas">
+        <div class="section-heading">
+          <p class="eyebrow">Calendario</p>
+          <h2>Próximas citas</h2>
+          <p>Agrega planes con fecha para que no se les escape ninguna salida especial.</p>
+        </div>
+
+        <div class="grid two-columns">
+          <form class="card date-form" id="dateForm">
+            <label for="dateTitle">Nombre de la cita</label>
+            <input id="dateTitle" name="title" maxlength="60" placeholder="Picnic, cine, once, paseo...">
+
+            <label for="dateDay">Fecha</label>
+            <input id="dateDay" name="day" type="date" required>
+
+            <label for="datePlace">Lugar o idea</label>
+            <input id="datePlace" name="place" maxlength="80" placeholder="Parque, casa, café, playa...">
+
+            <button class="button primary" type="submit">Agregar cita</button>
+          </form>
+
+          <div class="card countdown-card">
+            <p class="quote-label">Próximo momento especial</p>
+            <h3 id="nextDateTitle">Todavía no hay citas agendadas</h3>
+            <p id="nextDateCountdown">Agrega una fecha para verla aquí.</p>
+          </div>
+        </div>
+
+        <div class="timeline" id="timeline"></div>
+      </section>
+
+      <section class="panel" id="planes">
+        <div class="section-heading">
+          <p class="eyebrow">Panoramas</p>
+          <h2>Ideas para salir o regalonear</h2>
+          <p>Recomendaciones rápidas para cuando quieran hacer algo pero no sepan qué elegir.</p>
+        </div>
+
+        <div class="grid two-columns">
+          <div class="card plans-card">
+            <div class="pill-row" id="planFilters"></div>
+            <button class="button primary" id="randomPlanButton" type="button">Elegir plan al azar</button>
+            <article class="random-plan" id="randomPlanBox">
+              <h3>Plan sugerido</h3>
+              <p>Presiona el botón y te doy una idea.</p>
+            </article>
+          </div>
+
+          <div class="card bucket-list">
+            <h3>Wishlist de pareja</h3>
+            <p>Pueden usar estas ideas como checklist y luego convertirlas en citas reales arriba.</p>
+          </div>
+        </div>
+
+        <div class="plans-grid" id="plansGrid"></div>
+      </section>
+    </main>
+  </div>
+
+  <template id="galleryItemTemplate">
+    <article class="gallery-item">
+      <img alt="Recuerdo de Majo y Mateo">
+      <button class="icon-button" type="button" data-action="delete-photo" aria-label="Eliminar foto">✕</button>
+    </article>
+  </template>
+
+  <template id="noteTemplate">
+    <article class="note-card">
+      <div>
+        <h3></h3>
+        <p></p>
+      </div>
+      <button class="icon-button" type="button" data-action="delete-note" aria-label="Eliminar recuerdo">✕</button>
+    </article>
+  </template>
+
+  <template id="dateTemplate">
+    <article class="timeline-item">
+      <div class="timeline-date"></div>
+      <div class="timeline-content">
+        <h3></h3>
+        <p></p>
+      </div>
+      <button class="icon-button" type="button" data-action="delete-date" aria-label="Eliminar cita">✕</button>
+    </article>
+  </template>
+
+  <script src="script.js"></script>
+</body>
+</html>
