@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recuerdos y Citas | Majo y Mateo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="recuerdos">
+  <div class="page-shell">
+    <div class="floating floating-heart">❤️</div>
+    <div class="floating floating-monkey">🐵</div>
+
+    <header class="site-header">
+      <nav class="topbar">
+        <a class="brand" href="index.html">MAJO + MATEO</a>
+        <div class="topbar-links">
+          <a href="index.html">Inicio</a>
+          <a href="galeria.html">Galería</a>
+          <a class="active" href="recuerdos.html">Recuerdos y Citas</a>
+          <a href="planes.html">Planes</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="stack-layout">
+      <section class="panel">
+        <div class="section-heading">
+          <p class="eyebrow">Recuerdos</p>
+          <h2>Cosas de ustedes</h2>
+          <p>Escribe mensajes, momentos, promesas o tallas internas que quieran guardar.</p>
+        </div>
+
+        <div class="grid two-columns">
+          <form class="card note-form" id="noteForm">
+            <label for="noteTitle">Título</label>
+            <input id="noteTitle" name="title" maxlength="60" placeholder="Un recuerdo, una idea, una frase...">
+
+            <label for="noteMessage">Texto</label>
+            <textarea id="noteMessage" name="message" rows="5" maxlength="400" placeholder="Escribe algo bonito o importante para ustedes."></textarea>
+
+            <button class="button primary" type="submit">Guardar recuerdo</button>
+          </form>
+
+          <div class="card mini-board">
+            <h3>Panel de amorcito</h3>
+            <ul>
+              <li>❤️ Guardar cosas simples también vale.</li>
+              <li>💙 Una salida chica puede transformarse en gran recuerdo.</li>
+              <li>🐵 Este lugar está hecho para seguir llenándolo juntos.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="notes-grid" id="notesGrid"></div>
+      </section>
+
+      <section class="panel">
+        <div class="section-heading">
+          <p class="eyebrow">Citas</p>
+          <h2>Calendario de planes</h2>
+          <p>Agenden salidas con fecha para que no se les escape ninguna.</p>
+        </div>
+
+        <div class="grid two-columns">
+          <form class="card date-form" id="dateForm">
+            <label for="dateTitle">Nombre de la cita</label>
+            <input id="dateTitle" name="title" maxlength="60" placeholder="Picnic, cine, once, paseo...">
+
+            <label for="dateDay">Fecha</label>
+            <input id="dateDay" name="day" type="date" required>
+
+            <label for="datePlace">Lugar o idea</label>
+            <input id="datePlace" name="place" maxlength="80" placeholder="Parque, café, playa, casa...">
+
+            <button class="button primary" type="submit">Agregar cita</button>
+          </form>
+
+          <div class="card countdown-card">
+            <p class="quote-label">Próxima cita</p>
+            <h3 id="nextDateTitle">Todavía no hay citas agendadas</h3>
+            <p id="nextDateCountdown">Agrega una fecha para verla aquí.</p>
+          </div>
+        </div>
+
+        <div class="timeline" id="timeline"></div>
+      </section>
+    </main>
+  </div>
+
+  <template id="noteTemplate">
+    <article class="note-card">
+      <div>
+        <h3></h3>
+        <p></p>
+      </div>
+      <button class="icon-button" type="button" data-action="delete-note" aria-label="Eliminar recuerdo">✕</button>
+    </article>
+  </template>
+
+  <template id="dateTemplate">
+    <article class="timeline-item">
+      <div class="timeline-date"></div>
+      <div class="timeline-content">
+        <h3></h3>
+        <p></p>
+      </div>
+      <button class="icon-button" type="button" data-action="delete-date" aria-label="Eliminar cita">✕</button>
+    </article>
+  </template>
+
+  <script src="script.js"></script>
+</body>
+</html>

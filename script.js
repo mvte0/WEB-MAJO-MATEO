@@ -1,81 +1,116 @@
 const storageKeys = {
   photos: "majo-mateo-photos",
   notes: "majo-mateo-notes",
-  dates: "majo-mateo-dates"
+  dates: "majo-mateo-dates",
+  customPlans: "majo-mateo-custom-plans"
 };
 
 const surpriseMessages = [
-  "Hoy toca abrazo largo, foto bonita y algo rico para compartir.",
-  "Recordatorio serio: una salida simple con la persona correcta vale muchísimo.",
-  "Plan urgente: decirle algo lindo porque sí.",
-  "Michi y monita dictaminaron que se necesitan más recuerdos juntos.",
-  "Una cita en casa también puede ser legendaria si la hacen suya."
+  "Hoy toca regaloneo, fotos lindas y un plan inventado por ustedes.",
+  "Par de monos enamorados con agenda propia y recuerdos guardados.",
+  "Una salida simple con la persona correcta siempre vale mucho.",
+  "Majo y Mateo necesitan seguir sumando momentos bonitos.",
+  "Este espacio está hecho para llenar su historia juntos."
 ];
 
-const plans = [
-  { category: "Casa", title: "Noche de películas malas", text: "Elijan una película dudosa, hagan ranking de escenas absurdas y preparen snacks.", sticker: "🍿" },
-  { category: "Comida", title: "Ruta de cafeterías", text: "Prueben un café o postre nuevo y elijan su favorito con notas técnicas falsas.", sticker: "☕" },
-  { category: "Aire libre", title: "Picnic simple", text: "Lleven mantita, jugo, algo dulce y una playlist bonita a una plaza o parque.", sticker: "🌿" },
-  { category: "Aventura", title: "Paseo sin destino", text: "Suban a un bus o caminen una zona nueva sin plan rígido y documenten el recorrido.", sticker: "🗺️" },
-  { category: "Romántico", title: "Cartitas cortas", text: "Escriban tres mini cartas: una tierna, una graciosa y una para el futuro.", sticker: "💌" },
-  { category: "Casa", title: "Masterchef de pareja", text: "Cocinen algo que nunca hayan intentado y den puntajes como jurado exagerado.", sticker: "🍳" },
-  { category: "Comida", title: "Completo, sushi o helado", text: "Elijan un antojo y conviértanlo en salida aunque dure poco.", sticker: "🍣" },
-  { category: "Aire libre", title: "Fotos de atardecer", text: "Busquen un lugar con buena luz y armen una mini sesión de fotos juntos.", sticker: "🌇" },
-  { category: "Aventura", title: "Desafío de 20 lucas", text: "Salir con presupuesto fijo y ver quién inventa el mejor panorama.", sticker: "🎯" },
-  { category: "Romántico", title: "Cita del recuerdo", text: "Recreen algo de su primera etapa juntos con un giro nuevo.", sticker: "💖" }
+const basePlans = [
+  { id: "base-1", category: "Casa", title: "Maratón de series", text: "Elegir una serie nueva, apagar el mundo y pedir algo rico.", sticker: "📺" },
+  { id: "base-2", category: "Comida", title: "Ruta de completos o sushi", text: "Salir solo por antojo y convertirlo en panorama.", sticker: "🍣" },
+  { id: "base-3", category: "Aire libre", title: "Picnic con fotos", text: "Llevar manta, snacks y sacar muchas fotos juntos.", sticker: "🌤️" },
+  { id: "base-4", category: "Aventura", title: "Paseo sin rumbo", text: "Salir a caminar o tomar locomoción sin plan fijo.", sticker: "🗺️" },
+  { id: "base-5", category: "Romántico", title: "Cartas para el futuro", text: "Escribir cartas y abrirlas en una fecha importante.", sticker: "💌" },
+  { id: "base-6", category: "Casa", title: "Masterchef de pareja", text: "Cocinar algo nuevo y puntuarse como jurado dramático.", sticker: "🍳" },
+  { id: "base-7", category: "Comida", title: "Cafecito y postre", text: "Ir a un café nuevo y elegir el postre más absurdo.", sticker: "☕" },
+  { id: "base-8", category: "Aire libre", title: "Atardecer juntos", text: "Buscar un mirador, plaza o playa para ver el atardecer.", sticker: "🌅" },
+  { id: "base-9", category: "Aventura", title: "Salida con presupuesto fijo", text: "Ver quién arma el mejor panorama con plata limitada.", sticker: "🎯" },
+  { id: "base-10", category: "Romántico", title: "Recrear una cita antigua", text: "Hacer una versión mejorada de una salida que ya vivieron.", sticker: "❤️" },
+  { id: "base-11", category: "Casa", title: "Tarde de juegos", text: "Competencia de cartas, consola o juegos tontos con premio.", sticker: "🎮" },
+  { id: "base-12", category: "Aire libre", title: "Día de bicicletas o scooters", text: "Recorrer juntos un lugar con algo de movimiento.", sticker: "🚲" }
 ];
-
-const galleryGrid = document.querySelector("#galleryGrid");
-const notesGrid = document.querySelector("#notesGrid");
-const timeline = document.querySelector("#timeline");
-const planFilters = document.querySelector("#planFilters");
-const plansGrid = document.querySelector("#plansGrid");
-const dailyLoveNote = document.querySelector("#dailyLoveNote");
-const nextDateTitle = document.querySelector("#nextDateTitle");
-const nextDateCountdown = document.querySelector("#nextDateCountdown");
-const randomPlanBox = document.querySelector("#randomPlanBox");
-
-const photoInput = document.querySelector("#photoInput");
-const noteForm = document.querySelector("#noteForm");
-const dateForm = document.querySelector("#dateForm");
-const surpriseButton = document.querySelector("#surpriseButton");
-const randomPlanButton = document.querySelector("#randomPlanButton");
 
 let activeCategory = "Todos";
-let state = {
+const state = {
   photos: readStorage(storageKeys.photos, []),
   notes: readStorage(storageKeys.notes, seedNotes()),
-  dates: readStorage(storageKeys.dates, seedDates())
+  dates: readStorage(storageKeys.dates, seedDates()),
+  customPlans: readStorage(storageKeys.customPlans, [])
 };
 
-dailyLoveNote.textContent = `“${surpriseMessages[new Date().getDate() % surpriseMessages.length]}”`;
+const pageRefs = {
+  galleryGrid: document.querySelector("#galleryGrid"),
+  notesGrid: document.querySelector("#notesGrid"),
+  timeline: document.querySelector("#timeline"),
+  planFilters: document.querySelector("#planFilters"),
+  plansGrid: document.querySelector("#plansGrid"),
+  customPlansGrid: document.querySelector("#customPlansGrid"),
+  bucketListBox: document.querySelector("#bucketListBox"),
+  dailyLoveNote: document.querySelector("#dailyLoveNote"),
+  nextDateTitle: document.querySelector("#nextDateTitle"),
+  nextDateCountdown: document.querySelector("#nextDateCountdown"),
+  randomPlanBox: document.querySelector("#randomPlanBox"),
+  photoInput: document.querySelector("#photoInput"),
+  noteForm: document.querySelector("#noteForm"),
+  dateForm: document.querySelector("#dateForm"),
+  customPlanForm: document.querySelector("#customPlanForm"),
+  surpriseButton: document.querySelector("#surpriseButton"),
+  randomPlanButton: document.querySelector("#randomPlanButton")
+};
 
-photoInput.addEventListener("change", handlePhotoUpload);
-noteForm.addEventListener("submit", handleNoteSubmit);
-dateForm.addEventListener("submit", handleDateSubmit);
-surpriseButton.addEventListener("click", () => {
-  const randomMessage = surpriseMessages[Math.floor(Math.random() * surpriseMessages.length)];
-  dailyLoveNote.textContent = `“${randomMessage}”`;
-});
-randomPlanButton.addEventListener("click", renderRandomPlan);
+initPage();
 
-galleryGrid.addEventListener("click", handleGridActions);
-notesGrid.addEventListener("click", handleGridActions);
-timeline.addEventListener("click", handleGridActions);
+function initPage() {
+  if (pageRefs.dailyLoveNote) {
+    pageRefs.dailyLoveNote.textContent = `"${surpriseMessages[new Date().getDate() % surpriseMessages.length]}"`;
+  }
 
-renderFilters();
-renderGallery();
-renderNotes();
-renderDates();
-renderPlans();
-renderRandomPlan();
+  if (pageRefs.photoInput) {
+    pageRefs.photoInput.addEventListener("change", handlePhotoUpload);
+    pageRefs.galleryGrid.addEventListener("click", handleGridActions);
+    renderGallery();
+  }
+
+  if (pageRefs.noteForm) {
+    pageRefs.noteForm.addEventListener("submit", handleNoteSubmit);
+    pageRefs.notesGrid.addEventListener("click", handleGridActions);
+    renderNotes();
+  }
+
+  if (pageRefs.dateForm) {
+    pageRefs.dateForm.addEventListener("submit", handleDateSubmit);
+    pageRefs.timeline.addEventListener("click", handleGridActions);
+    renderDates();
+  }
+
+  if (pageRefs.surpriseButton) {
+    pageRefs.surpriseButton.addEventListener("click", () => {
+      const randomMessage = surpriseMessages[Math.floor(Math.random() * surpriseMessages.length)];
+      pageRefs.dailyLoveNote.textContent = `"${randomMessage}"`;
+    });
+  }
+
+  if (pageRefs.randomPlanButton) {
+    pageRefs.randomPlanButton.addEventListener("click", renderRandomPlan);
+  }
+
+  if (pageRefs.customPlanForm) {
+    pageRefs.customPlanForm.addEventListener("submit", handleCustomPlanSubmit);
+    pageRefs.customPlansGrid.addEventListener("click", handleGridActions);
+  }
+
+  if (pageRefs.planFilters) {
+    renderFilters();
+    renderPlans();
+    renderRandomPlan();
+    renderCustomPlans();
+  }
+}
 
 function seedNotes() {
   return [
     {
       id: crypto.randomUUID(),
-      title: "Abrir cuando falten mimos",
-      message: "Recordar que ustedes dos han construido algo muy bonito y vale la pena cuidarlo siempre."
+      title: "Para seguir llenando",
+      message: "Esta página es para guardar su historia, sus tallas internas y sus planes bonitos."
     }
   ];
 }
@@ -88,7 +123,7 @@ function seedDates() {
       id: crypto.randomUUID(),
       title: "Salida bonita",
       day: formatDateInput(nextWeek),
-      place: "Elegir juntos un lugar rico o un paseo simple"
+      place: "Elegir juntos algo rico o un paseo simple"
     }
   ];
 }
@@ -121,7 +156,7 @@ function handlePhotoUpload(event) {
     state.photos = [...images.map((src) => ({ id: crypto.randomUUID(), src })), ...state.photos].slice(0, 24);
     writeStorage(storageKeys.photos, state.photos);
     renderGallery();
-    photoInput.value = "";
+    pageRefs.photoInput.value = "";
   });
 }
 
@@ -136,7 +171,7 @@ function fileToDataUrl(file) {
 
 function handleNoteSubmit(event) {
   event.preventDefault();
-  const formData = new FormData(noteForm);
+  const formData = new FormData(pageRefs.noteForm);
   const title = String(formData.get("title") || "").trim();
   const message = String(formData.get("message") || "").trim();
 
@@ -146,13 +181,13 @@ function handleNoteSubmit(event) {
 
   state.notes = [{ id: crypto.randomUUID(), title, message }, ...state.notes];
   writeStorage(storageKeys.notes, state.notes);
-  noteForm.reset();
+  pageRefs.noteForm.reset();
   renderNotes();
 }
 
 function handleDateSubmit(event) {
   event.preventDefault();
-  const formData = new FormData(dateForm);
+  const formData = new FormData(pageRefs.dateForm);
   const title = String(formData.get("title") || "").trim();
   const day = String(formData.get("day") || "").trim();
   const place = String(formData.get("place") || "").trim();
@@ -163,8 +198,32 @@ function handleDateSubmit(event) {
 
   state.dates = [...state.dates, { id: crypto.randomUUID(), title, day, place }].sort(compareDates);
   writeStorage(storageKeys.dates, state.dates);
-  dateForm.reset();
+  pageRefs.dateForm.reset();
   renderDates();
+}
+
+function handleCustomPlanSubmit(event) {
+  event.preventDefault();
+  const formData = new FormData(pageRefs.customPlanForm);
+  const title = String(formData.get("title") || "").trim();
+  const category = String(formData.get("category") || "").trim() || "Personalizado";
+  const text = String(formData.get("text") || "").trim();
+  const sticker = String(formData.get("sticker") || "").trim() || "💙";
+
+  if (!title || !text) {
+    return;
+  }
+
+  state.customPlans = [
+    { id: crypto.randomUUID(), title, category, text, sticker },
+    ...state.customPlans
+  ];
+  writeStorage(storageKeys.customPlans, state.customPlans);
+  pageRefs.customPlanForm.reset();
+  renderFilters();
+  renderPlans();
+  renderRandomPlan();
+  renderCustomPlans();
 }
 
 function handleGridActions(event) {
@@ -198,12 +257,25 @@ function handleGridActions(event) {
     writeStorage(storageKeys.dates, state.dates);
     renderDates();
   }
+
+  if (action === "delete-custom-plan") {
+    state.customPlans = state.customPlans.filter((plan) => plan.id !== id);
+    writeStorage(storageKeys.customPlans, state.customPlans);
+    renderFilters();
+    renderPlans();
+    renderRandomPlan();
+    renderCustomPlans();
+  }
 }
 
 function renderGallery() {
-  galleryGrid.innerHTML = "";
+  if (!pageRefs.galleryGrid) {
+    return;
+  }
+
+  pageRefs.galleryGrid.innerHTML = "";
   if (!state.photos.length) {
-    galleryGrid.innerHTML = '<div class="empty-state">Todavía no hay fotos aquí. Súban una juntos y queda inaugurada la galería.</div>';
+    pageRefs.galleryGrid.innerHTML = '<div class="empty-state">Todavía no hay fotos aquí. Suban una juntos y queda inaugurada la galería.</div>';
     return;
   }
 
@@ -212,14 +284,18 @@ function renderGallery() {
     const node = template.content.firstElementChild.cloneNode(true);
     node.dataset.id = photo.id;
     node.querySelector("img").src = photo.src;
-    galleryGrid.appendChild(node);
+    pageRefs.galleryGrid.appendChild(node);
   });
 }
 
 function renderNotes() {
-  notesGrid.innerHTML = "";
+  if (!pageRefs.notesGrid) {
+    return;
+  }
+
+  pageRefs.notesGrid.innerHTML = "";
   if (!state.notes.length) {
-    notesGrid.innerHTML = '<div class="empty-state">No hay recuerdos escritos todavía. El primero puede ser algo simple pero muy de ustedes.</div>';
+    pageRefs.notesGrid.innerHTML = '<div class="empty-state">No hay recuerdos escritos todavía. El primero puede ser algo simple pero muy de ustedes.</div>';
     return;
   }
 
@@ -229,18 +305,22 @@ function renderNotes() {
     node.dataset.id = note.id;
     node.querySelector("h3").textContent = note.title;
     node.querySelector("p").textContent = note.message;
-    notesGrid.appendChild(node);
+    pageRefs.notesGrid.appendChild(node);
   });
 }
 
 function renderDates() {
-  timeline.innerHTML = "";
+  if (!pageRefs.timeline) {
+    return;
+  }
+
+  pageRefs.timeline.innerHTML = "";
   const orderedDates = [...state.dates].sort(compareDates);
 
   if (!orderedDates.length) {
-    timeline.innerHTML = '<div class="empty-state">No hay citas agendadas todavía.</div>';
-    nextDateTitle.textContent = "Todavía no hay citas agendadas";
-    nextDateCountdown.textContent = "Agrega una fecha para verla aquí.";
+    pageRefs.timeline.innerHTML = '<div class="empty-state">No hay citas agendadas todavía.</div>';
+    pageRefs.nextDateTitle.textContent = "Todavía no hay citas agendadas";
+    pageRefs.nextDateCountdown.textContent = "Agrega una fecha para verla aquí.";
     return;
   }
 
@@ -251,27 +331,34 @@ function renderDates() {
     node.querySelector(".timeline-date").textContent = formatHumanDate(date.day);
     node.querySelector("h3").textContent = date.title;
     node.querySelector("p").textContent = date.place || "Plan pendiente por definir";
-    timeline.appendChild(node);
+    pageRefs.timeline.appendChild(node);
   });
 
   const upcoming = orderedDates.find((date) => new Date(`${date.day}T00:00:00`).getTime() >= startOfToday());
   if (upcoming) {
     const diffDays = Math.ceil((new Date(`${upcoming.day}T00:00:00`).getTime() - startOfToday()) / 86400000);
-    nextDateTitle.textContent = upcoming.title;
-    nextDateCountdown.textContent =
+    pageRefs.nextDateTitle.textContent = upcoming.title;
+    pageRefs.nextDateCountdown.textContent =
       diffDays === 0
         ? `Es hoy. Lugar: ${upcoming.place || "por definir"}.`
         : `Faltan ${diffDays} día(s). Lugar: ${upcoming.place || "por definir"}.`;
   } else {
-    nextDateTitle.textContent = "No hay citas futuras";
-    nextDateCountdown.textContent = "Las que aparecen ya pasaron. Toca agendar una nueva.";
+    pageRefs.nextDateTitle.textContent = "No hay citas futuras";
+    pageRefs.nextDateCountdown.textContent = "Las que aparecen ya pasaron. Toca agendar una nueva.";
   }
 }
 
 function renderFilters() {
-  const categories = ["Todos", ...new Set(plans.map((plan) => plan.category))];
-  planFilters.innerHTML = "";
+  if (!pageRefs.planFilters) {
+    return;
+  }
 
+  const categories = ["Todos", ...new Set(getAllPlans().map((plan) => plan.category))];
+  if (!categories.includes(activeCategory)) {
+    activeCategory = "Todos";
+  }
+
+  pageRefs.planFilters.innerHTML = "";
   categories.forEach((category) => {
     const button = document.createElement("button");
     button.type = "button";
@@ -281,16 +368,19 @@ function renderFilters() {
       activeCategory = category;
       renderFilters();
       renderPlans();
+      renderRandomPlan();
     });
-    planFilters.appendChild(button);
+    pageRefs.planFilters.appendChild(button);
   });
 }
 
 function renderPlans() {
-  plansGrid.innerHTML = "";
-  const visiblePlans = activeCategory === "Todos"
-    ? plans
-    : plans.filter((plan) => plan.category === activeCategory);
+  if (!pageRefs.plansGrid) {
+    return;
+  }
+
+  pageRefs.plansGrid.innerHTML = "";
+  const visiblePlans = getVisiblePlans();
 
   visiblePlans.forEach((plan) => {
     const card = document.createElement("article");
@@ -300,28 +390,68 @@ function renderPlans() {
       <p>${plan.text}</p>
       <span class="plan-tag">${plan.category}</span>
     `;
-    plansGrid.appendChild(card);
+    pageRefs.plansGrid.appendChild(card);
   });
 
-  document.querySelector(".bucket-list").innerHTML = `
-    <h3>Wishlist de pareja</h3>
-    <p>Ideas rápidas que se pueden convertir en cita cuando quieran.</p>
-    <ul>
-      ${visiblePlans.slice(0, 4).map((plan) => `<li>${plan.title}</li>`).join("")}
-    </ul>
-  `;
+  if (pageRefs.bucketListBox) {
+    pageRefs.bucketListBox.innerHTML = `
+      <h3>Wishlist de pareja</h3>
+      <p>Ideas rápidas para convertir en salida cuando quieran.</p>
+      <ul>
+        ${visiblePlans.slice(0, 5).map((plan) => `<li>${plan.title}</li>`).join("")}
+      </ul>
+    `;
+  }
 }
 
 function renderRandomPlan() {
-  const source = activeCategory === "Todos"
-    ? plans
-    : plans.filter((plan) => plan.category === activeCategory);
+  if (!pageRefs.randomPlanBox) {
+    return;
+  }
+
+  const source = getVisiblePlans();
   const selected = source[Math.floor(Math.random() * source.length)];
 
-  randomPlanBox.innerHTML = `
+  pageRefs.randomPlanBox.innerHTML = `
     <h3>${selected.sticker} ${selected.title}</h3>
     <p>${selected.text}</p>
   `;
+}
+
+function renderCustomPlans() {
+  if (!pageRefs.customPlansGrid) {
+    return;
+  }
+
+  pageRefs.customPlansGrid.innerHTML = "";
+  if (!state.customPlans.length) {
+    pageRefs.customPlansGrid.innerHTML = '<div class="empty-state">Todavía no crean un plan propio. Inventen uno juntos y aparecerá aquí.</div>';
+    return;
+  }
+
+  state.customPlans.forEach((plan) => {
+    const card = document.createElement("article");
+    card.className = "plan-card custom-card";
+    card.dataset.id = plan.id;
+    card.innerHTML = `
+      <button class="icon-button" type="button" data-action="delete-custom-plan" aria-label="Eliminar plan">✕</button>
+      <h3>${plan.sticker} ${plan.title}</h3>
+      <p>${plan.text}</p>
+      <span class="plan-tag">${plan.category}</span>
+    `;
+    pageRefs.customPlansGrid.appendChild(card);
+  });
+}
+
+function getAllPlans() {
+  return [...basePlans, ...state.customPlans];
+}
+
+function getVisiblePlans() {
+  const allPlans = getAllPlans();
+  return activeCategory === "Todos"
+    ? allPlans
+    : allPlans.filter((plan) => plan.category === activeCategory);
 }
 
 function compareDates(a, b) {

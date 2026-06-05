@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galería | Majo y Mateo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="galeria">
+  <div class="page-shell">
+    <div class="floating floating-cat">🐱</div>
+    <div class="floating floating-monkey">🐵</div>
+
+    <header class="site-header">
+      <nav class="topbar">
+        <a class="brand" href="index.html">MAJO + MATEO</a>
+        <div class="topbar-links">
+          <a href="index.html">Inicio</a>
+          <a class="active" href="galeria.html">Galería</a>
+          <a href="recuerdos.html">Recuerdos y Citas</a>
+          <a href="planes.html">Planes</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <section class="panel">
+        <div class="section-heading">
+          <p class="eyebrow">Galería</p>
+          <h2>Sus fotos favoritas</h2>
+          <p>Sube imágenes de ustedes y déjalas guardadas en este navegador.</p>
+        </div>
+
+        <div class="grid two-columns">
+          <div class="card soft-card">
+            <label class="upload-box" for="photoInput">
+              <span class="upload-icon">📸</span>
+              <strong>Agregar fotos</strong>
+              <small>PNG, JPG o WEBP</small>
+            </label>
+            <input id="photoInput" type="file" accept="image/*" multiple hidden>
+            <p class="helper-text">Las fotos quedan guardadas localmente para que este espacio siga siendo de ustedes.</p>
+          </div>
+
+          <div class="card quote-card">
+            <p class="quote-label">Mensaje bonito</p>
+            <blockquote id="dailyLoveNote">"Aquí van sus mejores recuerdos juntos."</blockquote>
+            <button class="button secondary" id="surpriseButton" type="button">Cambiar mensaje</button>
+          </div>
+        </div>
+
+        <div class="gallery-grid" id="galleryGrid"></div>
+      </section>
+    </main>
+  </div>
+
+  <template id="galleryItemTemplate">
+    <article class="gallery-item">
+      <img alt="Recuerdo de Majo y Mateo">
+      <button class="icon-button" type="button" data-action="delete-photo" aria-label="Eliminar foto">✕</button>
+    </article>
+  </template>
+
+  <script src="script.js"></script>
+</body>
+</html>

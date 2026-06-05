@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Planes | Majo y Mateo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="planes">
+  <div class="page-shell">
+    <div class="floating floating-heart">❤️</div>
+    <div class="floating floating-cat">🐱</div>
+
+    <header class="site-header">
+      <nav class="topbar">
+        <a class="brand" href="index.html">MAJO + MATEO</a>
+        <div class="topbar-links">
+          <a href="index.html">Inicio</a>
+          <a href="galeria.html">Galería</a>
+          <a href="recuerdos.html">Recuerdos y Citas</a>
+          <a class="active" href="planes.html">Planes</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="stack-layout">
+      <section class="panel">
+        <div class="section-heading">
+          <p class="eyebrow">Panoramas</p>
+          <h2>Ideas para salir o regalonear</h2>
+          <p>Hay más ideas y además ahora pueden crear planes propios y dejarlos guardados.</p>
+        </div>
+
+        <div class="grid two-columns">
+          <div class="card plans-card">
+            <div class="pill-row" id="planFilters"></div>
+            <button class="button primary" id="randomPlanButton" type="button">Elegir plan al azar</button>
+            <article class="random-plan" id="randomPlanBox">
+              <h3>Plan sugerido</h3>
+              <p>Presiona el botón y te doy una idea.</p>
+            </article>
+          </div>
+
+          <div class="card bucket-list" id="bucketListBox">
+            <h3>Wishlist de pareja</h3>
+            <p>Ideas rápidas para convertir en salida cuando quieran.</p>
+          </div>
+        </div>
+
+        <div class="plans-grid" id="plansGrid"></div>
+      </section>
+
+      <section class="panel">
+        <div class="section-heading">
+          <p class="eyebrow">Planes de ustedes</p>
+          <h2>Crear un panorama propio</h2>
+          <p>Si quieren inventar uno nuevo, lo agregan aquí y queda guardado con los demás.</p>
+        </div>
+
+        <div class="grid two-columns">
+          <form class="card plan-form" id="customPlanForm">
+            <label for="customPlanTitle">Nombre del plan</label>
+            <input id="customPlanTitle" name="title" maxlength="60" placeholder="Salir por helado, día de fotos, arcade...">
+
+            <label for="customPlanCategory">Categoría</label>
+            <input id="customPlanCategory" name="category" maxlength="30" placeholder="Casa, Aventura, Comida...">
+
+            <label for="customPlanText">Descripción</label>
+            <textarea id="customPlanText" name="text" rows="4" maxlength="220" placeholder="Cómo sería este plan y por qué les gustaría."></textarea>
+
+            <label for="customPlanSticker">Sticker o emoji</label>
+            <input id="customPlanSticker" name="sticker" maxlength="4" placeholder="🎠">
+
+            <button class="button primary" type="submit">Crear plan</button>
+          </form>
+
+          <div class="card custom-plan-board">
+            <h3>Ideas extra</h3>
+            <ul>
+              <li>💙 Día de fotos con ropa combinada.</li>
+              <li>❤️ Desayuno sorpresa o once especial.</li>
+              <li>🐵 Salida improvisada con presupuesto fijo.</li>
+              <li>🐱 Tarde de juegos, series y snacks.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="plans-grid" id="customPlansGrid"></div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
